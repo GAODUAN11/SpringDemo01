@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${post.title} + ' - Discussion Forum'">Post Detail - Discussion Forum</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/post-detail.css}">
+</head>
+<body>
+    <div class="header">
+        <h1>Discussion Forum</h1>
+        <div>
+            Welcome, <span th:text="${username}">username</span>!
+            <a th:href="@{/logout}" class="btn">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <a th:href="@{/posts}" class="back-link">&larr; Back to Posts</a>
+        
+        <div class="post-card">
+            <h1 class="post-title" th:text="${post.title}">Post Title</h1>
+            <div class="post-author" th:text="'By ' + ${post.author} + ' on ' + ${post.createdTimeFormatted}">Author and date</div>
+            <div class="post-content" th:text="${post.content}">Post content</div>
+        </div>
+        
+        <div class="comment-section">
+            <h3>Comments (<span th:text="${commentCount}">0</span>)</h3>
+            
+            <div class="comment-form">
+                <form th:action="@{/posts/comment/{postId}(postId=${post.id})}" method="post">
+                    <div class="form-group">
+                        <label for="content">Add a Comment:</label>
+                        <textarea id="content" name="content" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Post Comment</button>
+                </form>
+            </div>
+            
+            <div th:if="${#lists.isEmpty(comments)}">
+                <p>No comments yet. Be the first to comment!</p>
+            </div>
+            
+            <div th:unless="${#lists.isEmpty(comments)}">
+                <div th:each="comment : ${comments}">
+                    <div th:if="${comment.parentId == null}" class="comment">
+                        <div class="comment-author" th:text="${comment.author}">Author</div>
+                        <div class="comment-time" th:text="${comment.createdTimeFormatted}">Time</div>
+                        <div class="comment-content" th:text="${comment.content}">Content</div>
+                        <div class="reply-link" th:onclick="'toggleReplyForm(' + ${comment.id} + ')'">Reply</div>
+                        
+                        <div th:id="'reply-form-' + ${comment.id}" class="reply-form" style="display:none;">
+                            <form th:action="@{/posts/comment/{postId}/reply/{commentId}(postId=${post.id}, commentId=${comment.id})}" method="post">
+                                <div class="form-group">
+                                    <textarea name="content" placeholder="Write your reply..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn">Post Reply</button>
+                            </form>
+                        </div>
+                        
+                        <!-- Display replies to this comment -->
+                        <div th:each="reply : ${comments}">
+                            <div th:if="${reply.parentId == comment.id}" class="reply-comment">
+                                <div class="comment">
+                                    <div class="comment-author" th:text="${reply.author}">Author</div>
+                                    <div class="comment-time" th:text="${reply.createdTimeFormatted}">Time</div>
+                                    <div class="comment-content" th:text="${reply.content}">Content</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script th:src="@{/js/thread.js}"></script>
+</body>
+</html>

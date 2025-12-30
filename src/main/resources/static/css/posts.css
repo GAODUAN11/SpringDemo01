@@ -1,0 +1,73 @@
+/* 1. 限制容器宽度（关键！给.post-content一个换行边界） */
+.container {
+    width: 100%;
+    max-width: 1200px; /* 可根据需求调整（比如 800px/1000px），避免页面过宽 */
+    margin: 0 auto; /* 水平居中 */
+    padding: 0 20px; /* 左右留边距，适配手机 */
+    box-sizing: border-box;
+}
+
+/* 2. 优化帖子卡片（减少空白高度 + 固定宽度） */
+.post-card {
+    background: white;
+    margin-bottom: 15px; /* 卡片之间的间距（适度紧凑） */
+    padding: 12px 18px; /* 卡片内部上下内边距（减少空白） */
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box; /* 确保 padding 不撑大卡片宽度 */
+}
+
+/* 3. 帖子标题（减少底部空白） */
+.post-title {
+    font-size: 18px; /* 适度字体大小 */
+    margin: 0 0 8px 0; /* 只留底部 8px 间距，取消上下默认边距 */
+    color: #2d3748;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+/* 4. 帖子作者栏（减少底部空白） */
+.post-author {
+    font-size: 13px;
+    color: #718096;
+    margin: 0 0 10px 0; /* 底部 10px 间距，紧凑不拥挤 */
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 5. 核心：解决.post-content不换行、出界问题 */
+.post-content {
+    color: #4a5568;
+    line-height: 1.6;
+    /* 强制换行三保险（优先级拉满） */
+    white-space: normal; /* 让浏览器处理空白字符 */
+    word-break: break-word; /* 在适当的地方断行，保持单词完整性 */
+    overflow-wrap: break-word; /* 长单词/URL 换行（兼容所有浏览器） */
+    hyphens: auto; /* 自动添加连字符 */
+    /* 宽度强制限制（继承父容器宽度） */
+    width: 100%;
+    max-width: 100%;
+    /* 移除固定高度和隐藏溢出，让用户能看到全部内容 */
+    margin: 0 0 12px 0; /* 底部间距，与操作栏分隔 */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 6. 帖子操作栏（紧凑布局） */
+.post-meta {
+    font-size: 14px;
+    color: #718096;
+    padding-top: 8px;
+    border-top: 1px solid #f5f5f5; /* 轻微分隔线，不拥挤 */
+}
+
+/* 按钮样式微调（可选，让布局更协调） */
+.btn-view {
+    padding: 4px 10px;
+    font-size: 13px;
+    margin-left: 10px;
+}
