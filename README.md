@@ -1,7 +1,7 @@
 # Spring Boot 论坛/博客系统
 
 一个基于Spring Boot的论坛/博客系统，使用Spring MVC架构和Thymeleaf模板引擎。
-
+http://10.100.164.5:8080/SpringDemo01-0.0.1-SNAPSHOT/
 ## 项目特性
 
 - 用户注册与登录系统
